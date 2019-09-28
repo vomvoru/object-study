@@ -5,14 +5,14 @@ Bag --> Invitation: invitation
 Bag --> Ticket: ticket
 
 TicektSeller --> TicketOffice: ticketOffice
+TicektSeller ..> Bag
+TicektSeller ..> Ticket
+TicektSeller ..> Audience
 
 TicketOffice --> Ticket: tickets
 
 Theater --> TicektSeller: ticketSeller
 Theater ..> Audience
-Theater ..> Bag
-Theater ..> TicketOffice
-Theater ..> Ticket
 
 class Audience {
   +getBag()
@@ -34,7 +34,7 @@ class Ticket {
 }
 
 class TicektSeller {
-  +getTicketOffice()
+  +sellTo()
 }
 
 class TicketOffice {
