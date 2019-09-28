@@ -6,10 +6,10 @@ Bag --> Invitation: invitation
 Bag --> Ticket: ticket
 
 TicektSeller --> TicketOffice: ticketOffice
-TicektSeller ..> Ticket
 TicektSeller ..> Audience
 
 TicketOffice --> Ticket: tickets
+TicketOffice ..> Audience
 
 Theater --> TicektSeller: ticketSeller
 Theater ..> Audience
@@ -35,9 +35,7 @@ class TicektSeller {
 }
 
 class TicketOffice {
-  +getTicket()
-  +minusAmount(amount)
-  +plusAmount(amount)
+  +sellTicketTo(audience)
 }
 
 class Theater {
