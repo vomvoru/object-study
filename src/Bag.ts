@@ -24,23 +24,34 @@ export default class Bag {
     this.amount = amount;
   }
 
-  hasInvitation(): boolean {
+  hold(ticket: Ticket) {
+    if (this.hasInvitation()) {
+      this.setTicket(ticket);
+      return 0;
+    }
+
+    this.setTicket(ticket);
+    this.minusAmount(ticket.getFee());
+    return ticket.getFee();
+  }
+
+  private hasInvitation(): boolean {
     return this.invitation !== null;
   }
 
-  hasTicket(): boolean {
+  private hasTicket(): boolean {
     return this.ticket !== null;
   }
 
-  setTicket(ticket: Ticket) {
+  private setTicket(ticket: Ticket) {
     this.ticket = ticket;
   }
 
-  minusAmount(amount: number) {
+  private minusAmount(amount: number) {
     this.amount -= amount;
   }
 
-  plusAmount(amount: number) {
+  private plusAmount(amount: number) {
     this.amount += amount;
   }
 }

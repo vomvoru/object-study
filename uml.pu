@@ -19,10 +19,7 @@ class Audience {
 }
 
 class Bag {
-  +hasInvitation()
-  +setTicket(ticket)
-  +minusAmount(amount)
-  +plusAmount(amount)
+  +hold(ticket)
 }
 
 class Invitation {
