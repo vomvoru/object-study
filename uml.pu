@@ -1,11 +1,14 @@
 @startuml
 Audience --> Bag: bag
+
 Bag --> Invitation: invitation
 Bag --> Ticket: ticket
-TicektSeller --> TicketOffice: ticketOffice
-TicketOffice --> Ticket: tickets
-Theater --> TicektSeller: ticketSeller
 
+TicektSeller --> TicketOffice: ticketOffice
+
+TicketOffice --> Ticket: tickets
+
+Theater --> TicektSeller: ticketSeller
 Theater ..> Audience
 Theater ..> Bag
 Theater ..> TicketOffice
