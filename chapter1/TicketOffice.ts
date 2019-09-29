@@ -1,7 +1,7 @@
-import Ticket from './Ticket';
-import Audience from './Audience';
+import { Ticket } from './Ticket';
+import { Audience } from './Audience';
 
-export default class TicketOffice {
+export class TicketOffice {
   constructor(private amount: number, private tickets: Ticket[]) {}
 
   sellTicketTo(audience: Audience) {

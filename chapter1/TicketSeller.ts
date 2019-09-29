@@ -1,7 +1,7 @@
-import TicketOffice from './TicketOffice';
-import Audience from './Audience';
+import { TicketOffice } from './TicketOffice';
+import { Audience } from './Audience';
 
-export default class TicketSeller {
+export class TicketSeller {
   constructor(private ticketOffice: TicketOffice) {}
 
   sellTo(audience: Audience) {

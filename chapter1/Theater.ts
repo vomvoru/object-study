@@ -1,7 +1,7 @@
-import TicketSeller from './TicketSeller';
-import Audience from './Audience';
+import { TicketSeller } from './TicketSeller';
+import { Audience } from './Audience';
 
-export default class Theater {
+export class Theater {
   constructor(private ticketSeller: TicketSeller) {}
 
   enter(audience: Audience) {

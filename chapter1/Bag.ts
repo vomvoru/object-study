@@ -1,7 +1,7 @@
-import Invitation from './Invitation';
-import Ticket from './Ticket';
+import { Invitation } from './Invitation';
+import { Ticket } from './Ticket';
 
-export default class Bag {
+export class Bag {
   private amount: number;
   private invitation: Invitation;
   private ticket: Ticket;

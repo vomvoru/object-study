@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsplant": "tplant -C --input chapter1/**/*.ts --output chapter1/tplant.svg"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "prettier": "^1.18.2",
+    "tplant": "^2.3.1",
     "typescript": "^3.6.3"
   },
   "dependencies": {

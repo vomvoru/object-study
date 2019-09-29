@@ -1,7 +1,7 @@
-import Bag from './Bag';
-import Ticket from './Ticket';
+import { Bag } from './Bag';
+import { Ticket } from './Ticket';
 
-export default class Audience {
+export class Audience {
   constructor(private bag: Bag) {}
 
   buy(ticket: Ticket) {

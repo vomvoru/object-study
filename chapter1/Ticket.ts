@@ -1,4 +1,4 @@
-export default class Ticket {
+export class Ticket {
   private fee: number;
 
   getFee(): number {

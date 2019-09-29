@@ -1,3 +1,3 @@
-export default class Invitation {
+export class Invitation {
   private when: Date;
 }
