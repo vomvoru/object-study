@@ -1,9 +1,9 @@
 import { DiscountCondition } from '../DiscountCondition';
-import { DiscountPolicy } from '../DiscountPolicy';
 import { Screening } from '../Screening';
 import { Money } from '../Money';
+import { DefaultDiscountPolicy } from './DefaultDiscountPolicy';
 
-export class PercentDiscountPolicy extends DiscountPolicy {
+export class PercentDiscountPolicy extends DefaultDiscountPolicy {
   constructor(private percent: number, conditions: DiscountCondition[]) {
     super(conditions);
   }
