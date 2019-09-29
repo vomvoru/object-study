@@ -79,6 +79,7 @@ module.exports = {
     'no-empty-function': 'error',
     'no-magic-numbers': 'warn',
     'max-classes-per-file': 'off',
+    'import/no-default-export': 'error'
   },
 
   overrides: [
