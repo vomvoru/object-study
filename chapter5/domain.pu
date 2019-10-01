@@ -1,0 +1,26 @@
+@startuml
+
+class Reservation
+class Screening
+class Movie
+class AmountDiscountMovie
+class PercentDiscountMovie
+class DiscountCondition
+class SequenceCondition
+class PeriodCondition
+
+
+Reservation "*" -right-"1" Screening
+Screening "*" -right-"1" Movie
+Movie <|-- AmountDiscountMovie
+Movie <|-- PercentDiscountMovie
+Movie "1" -right-"1..*" DiscountCondition
+DiscountCondition <|-- SequenceCondition
+DiscountCondition <|-- PeriodCondition
+
+
+hide empty fields
+hide empty methods
+hide circle
+
+@enduml
