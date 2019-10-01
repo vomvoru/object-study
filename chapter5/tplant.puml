@@ -1,5 +1,4 @@
 @startuml
-class Customer
 class Money {
     -amount: number
     +plus(amount: Money): Money
@@ -10,31 +9,22 @@ class Money {
     +{static} ZERO: Money
     +{static} wons(amount: number): Money
 }
+class Customer
 class Reservation {
     -customer: Customer
     -screening: Screening
     -fee: Money
     -audienceCount: number
 }
-enum MovieType {
-    AMOUNT_DISCOUNT
-    PERCENT_DISCOUNT
-    NONE_DISCOUNT
-}
-class Movie {
-    -movieType: MovieType
-    -discountAmount: Money
-    -discountPercent: number
+abstract class Movie {
     -title: string
     -runningTime: number
     -fee: Money
     -discountConditions: DiscountCondition[]
     +calculateMovieFee(screening: Screening): Money
     -isDiscountAble(screening: Screening): boolean
-    -caclculateDiscountAmount(): Money
-    -caclculateAmountDiscountAmount(): Money
-    -caclculatePercentDiscountAmount(): Money
-    -caclculateNoneDiscountAmount(): Money
+    #getFee(): Money
+    #{abstract} caclculateDiscountAmount(): Money
 }
 class Screening {
     -movie: Movie
@@ -47,6 +37,17 @@ class Screening {
 }
 interface DiscountCondition {
     +isSatisfiedBy(screening: Screening): boolean
+}
+class AmountDiscountMovie extends Movie {
+    -discountAmount: Money
+    #caclculateDiscountAmount(): Money
+}
+class NoneDiscountMovie extends Movie {
+    #caclculateDiscountAmount(): Money
+}
+class PercentDiscountMovie extends Movie {
+    -percent: number
+    #caclculateDiscountAmount(): Money
 }
 class PeriodCondition implements DiscountCondition {
     -dayOfWeek: number
@@ -61,7 +62,6 @@ class SequenceCondition implements DiscountCondition {
 Reservation *-- Customer
 Reservation *-- Screening
 Reservation *-- Money
-Movie *-- MovieType
 Movie *-- Money
 Movie *-- DiscountCondition
 Movie *-- Screening
@@ -70,6 +70,9 @@ Screening *-- Customer
 Screening *-- Reservation
 Screening *-- Money
 DiscountCondition *-- Screening
+AmountDiscountMovie *-- Money
+NoneDiscountMovie *-- Money
+PercentDiscountMovie *-- Money
 PeriodCondition *-- Screening
 SequenceCondition *-- Screening
 
