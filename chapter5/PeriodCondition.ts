@@ -1,6 +1,7 @@
 import { Screening } from './Screening';
+import { DiscountCondition } from './DiscountCondition';
 
-export class PeriodCondition {
+export class PeriodCondition implements DiscountCondition {
   constructor(private dayOfWeek: number, private startTime: Date, private endTime: Date) {}
 
   isSatisfiedBy(screening: Screening): boolean {
