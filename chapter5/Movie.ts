@@ -1,14 +1,21 @@
 import { Money } from './Money';
 import { Screening } from './Screening';
-import { DiscountCondition } from './DiscountCondition';
 import { MovieType } from './MovieType';
+import { PeriodCondition } from './PeriodCondition';
+import { SequenceCondition } from './SequenceCondition';
 
 export class Movie {
   private movieType: MovieType;
   private discountAmount: Money;
   private discountPercent: number;
 
-  constructor(private title: string, private runningTime: number, private fee: Money, private discountConditions: DiscountCondition[]) {}
+  constructor(
+    private title: string,
+    private runningTime: number,
+    private fee: Money,
+    private periodConditions: PeriodCondition[],
+    private sequenceConditions: SequenceCondition[]
+  ) {}
 
   calculateMovieFee(screening: Screening): Money {
     if (this.isDiscountAble(screening)) {
@@ -19,7 +26,15 @@ export class Movie {
   }
 
   private isDiscountAble(screening: Screening): boolean {
-    return this.discountConditions.some(discountCondition => discountCondition.isSatisfiedBy(screening));
+    return this.checkPeriodConditions(screening) || this.checkSequenceConditions(screening);
+  }
+
+  private checkPeriodConditions(screening: Screening): boolean {
+    return this.periodConditions.some(discountCondition => discountCondition.isSatisfiedBy(screening));
+  }
+
+  private checkSequenceConditions(screening: Screening): boolean {
+    return this.sequenceConditions.some(discountCondition => discountCondition.isSatisfiedBy(screening));
   }
 
   private caclculateDiscountAmount(): Money {
