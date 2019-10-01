@@ -3,8 +3,9 @@
 class Reservation
 class Screening
 class Movie
-class AmountDiscountMovie
-class PercentDiscountMovie
+class DiscountPolicy
+class AmountDiscountPolicy
+class PercentDiscountPolicy
 class DiscountCondition
 class SequenceCondition
 class PeriodCondition
@@ -12,9 +13,10 @@ class PeriodCondition
 
 Reservation "*" -right-"1" Screening
 Screening "*" -right-"1" Movie
-Movie <|-- AmountDiscountMovie
-Movie <|-- PercentDiscountMovie
-Movie "1" -right-"1..*" DiscountCondition
+Movie "1" -right-"0..1" DiscountPolicy
+DiscountPolicy <|-- AmountDiscountPolicy
+DiscountPolicy <|-- PercentDiscountPolicy
+DiscountPolicy "1" -right-"1..*" DiscountCondition
 DiscountCondition <|-- SequenceCondition
 DiscountCondition <|-- PeriodCondition
 
