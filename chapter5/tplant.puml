@@ -1,0 +1,79 @@
+@startuml
+class Customer
+class Money {
+    -amount: number
+    +plus(amount: Money): Money
+    +minus(amount: Money): Money
+    +times(percent: number): Money
+    +isLessThan(other: Money): boolean
+    +isGreaterThanOrEqual(other: Money): boolean
+    +{static} ZERO: Money
+    +{static} wons(amount: number): Money
+}
+class Reservation {
+    -customer: Customer
+    -screening: Screening
+    -fee: Money
+    -audienceCount: number
+}
+enum MovieType {
+    AMOUNT_DISCOUNT
+    PERCENT_DISCOUNT
+    NONE_DISCOUNT
+}
+class Movie {
+    -movieType: MovieType
+    -discountAmount: Money
+    -discountPercent: number
+    -title: string
+    -runningTime: number
+    -fee: Money
+    -discountConditions: DiscountCondition[]
+    +calculateMovieFee(screening: Screening): Money
+    -isDiscountAble(screening: Screening): boolean
+    -caclculateDiscountAmount(): Money
+    -caclculateAmountDiscountAmount(): Money
+    -caclculatePercentDiscountAmount(): Money
+    -caclculateNoneDiscountAmount(): Money
+}
+class Screening {
+    -movie: Movie
+    -sequence: number
+    -whenScreened: Date
+    +reserve(customer: Customer, audienceCount: number): Reservation
+    +getSequence(): number
+    +getWhenScreened(): Date
+    -calculateFee(audienceCount: number): Money
+}
+enum DiscountConditionType {
+    SEQUENCE
+    PERIOD
+}
+class DiscountCondition {
+    -type: DiscountConditionType
+    -sequence: number
+    -dayOfWeek: number
+    -startTime: Date
+    -endTime: Date
+    +isSatisfiedBy(screening: Screening): boolean
+    -isStatisfiedByPeriod(screening: Screening): boolean
+    -isStatisfiedBySequence(screening: Screening): boolean
+}
+Reservation *-- Customer
+Reservation *-- Screening
+Reservation *-- Money
+Movie *-- MovieType
+Movie *-- Money
+Movie *-- DiscountCondition
+Movie *-- Screening
+Screening *-- Movie
+Screening *-- Customer
+Screening *-- Reservation
+Screening *-- Money
+DiscountCondition *-- DiscountConditionType
+DiscountCondition *-- Screening
+
+hide Money
+hide Customer
+hide Reservation
+@enduml

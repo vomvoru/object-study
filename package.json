@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsplant": "tplant -C --input chapter2/**/**/*.ts --output chapter2/tplant.svg"
+    "tsplant": "tplant -C --input chapter5/**/**/*.ts --output chapter5/tplant.puml"
   },
   "author": "",
   "license": "ISC",
