@@ -1,25 +1,23 @@
 import { Money } from './Money';
+import { DiscountPolicy } from './DiscountPolicy';
 import { Screening } from './Screening';
-import { DiscountCondition } from './DiscountCondition';
 
-export abstract class Movie {
-  constructor(private title: string, private runningTime: number, private fee: Money, private discountConditions: DiscountCondition[]) {}
+export class Movie {
+  private discountPolicy: DiscountPolicy;
+
+  constructor(private title: string, private runningTime: number, private fee: Money, discountPolicy: DiscountPolicy) {
+    this.setDiscountPolicy(discountPolicy);
+  }
+
+  getFee(): Money {
+    return this.fee;
+  }
+
+  setDiscountPolicy(discountPolicy: DiscountPolicy) {
+    this.discountPolicy = discountPolicy;
+  }
 
   calculateMovieFee(screening: Screening): Money {
-    if (this.isDiscountAble(screening)) {
-      return this.fee.minus(this.caclculateDiscountAmount());
-    }
-
-    return this.fee;
+    return this.fee.minus(this.discountPolicy.calculateDiscountAmount(screening));
   }
-
-  private isDiscountAble(screening: Screening): boolean {
-    return this.discountConditions.some(discountCondition => discountCondition.isSatisfiedBy(screening));
-  }
-
-  protected getFee(): Money {
-    return this.fee;
-  }
-
-  protected abstract caclculateDiscountAmount(): Money;
 }

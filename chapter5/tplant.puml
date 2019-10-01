@@ -1,4 +1,8 @@
 @startuml
+class Customer {
+    -name: string
+    -id: string
+}
 class Money {
     -amount: number
     +plus(amount: Money): Money
@@ -9,45 +13,49 @@ class Money {
     +{static} ZERO: Money
     +{static} wons(amount: number): Money
 }
-class Customer
+abstract class DiscountPolicy {
+    -conditions: DiscountCondition[]
+    +calculateDiscountAmount(screening: Screening): Money
+    #{abstract} getDiscountAmount(Screening: Screening): Money
+}
+class Movie {
+    -discountPolicy: DiscountPolicy
+    -title: string
+    -runningTime: number
+    -fee: Money
+    +getFee(): Money
+    +setDiscountPolicy(discountPolicy: DiscountPolicy): void
+    +calculateMovieFee(screening: Screening): Money
+}
 class Reservation {
     -customer: Customer
     -screening: Screening
     -fee: Money
     -audienceCount: number
 }
-abstract class Movie {
-    -title: string
-    -runningTime: number
-    -fee: Money
-    -discountConditions: DiscountCondition[]
-    +calculateMovieFee(screening: Screening): Money
-    -isDiscountAble(screening: Screening): boolean
-    #getFee(): Money
-    #{abstract} caclculateDiscountAmount(): Money
-}
 class Screening {
     -movie: Movie
     -sequence: number
     -whenScreened: Date
+    +getStartTime(): Date
+    +isSequence(sequence: number): boolean
+    +getMovieFee(): Money
     +reserve(customer: Customer, audienceCount: number): Reservation
-    +getSequence(): number
-    +getWhenScreened(): Date
-    -calculateFee(audienceCount: number): Money
+    +calculateFee(audienceCount: number): Money
 }
 interface DiscountCondition {
     +isSatisfiedBy(screening: Screening): boolean
 }
-class AmountDiscountMovie extends Movie {
+class AmountDiscountPolicy extends DiscountPolicy {
     -discountAmount: Money
-    #caclculateDiscountAmount(): Money
+    #getDiscountAmount(): Money
 }
-class NoneDiscountMovie extends Movie {
-    #caclculateDiscountAmount(): Money
+class NoneDiscountPolicy extends DiscountPolicy {
+    #getDiscountAmount(): Money
 }
-class PercentDiscountMovie extends Movie {
+class PercentDiscountPolicy extends DiscountPolicy {
     -percent: number
-    #caclculateDiscountAmount(): Money
+    #getDiscountAmount(screening: Screening): Money
 }
 class PeriodCondition implements DiscountCondition {
     -dayOfWeek: number
@@ -59,20 +67,24 @@ class SequenceCondition implements DiscountCondition {
     -sequence: number
     +isSatisfiedBy(screening: Screening): boolean
 }
+DiscountPolicy *-- DiscountCondition
+DiscountPolicy *-- Screening
+DiscountPolicy *-- Money
+Movie *-- DiscountPolicy
+Movie *-- Money
+Movie *-- Screening
 Reservation *-- Customer
 Reservation *-- Screening
 Reservation *-- Money
-Movie *-- Money
-Movie *-- DiscountCondition
-Movie *-- Screening
 Screening *-- Movie
+Screening *-- Money
 Screening *-- Customer
 Screening *-- Reservation
-Screening *-- Money
 DiscountCondition *-- Screening
-AmountDiscountMovie *-- Money
-NoneDiscountMovie *-- Money
-PercentDiscountMovie *-- Money
+AmountDiscountPolicy *-- Money
+NoneDiscountPolicy *-- Money
+PercentDiscountPolicy *-- Screening
+PercentDiscountPolicy *-- Money
 PeriodCondition *-- Screening
 SequenceCondition *-- Screening
 

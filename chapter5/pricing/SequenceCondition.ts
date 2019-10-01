@@ -1,10 +1,10 @@
-import { Screening } from './Screening';
-import { DiscountCondition } from './DiscountCondition';
+import { DiscountCondition } from '../DiscountCondition';
+import { Screening } from '../Screening';
 
 export class SequenceCondition implements DiscountCondition {
   constructor(private sequence: number) {}
 
   isSatisfiedBy(screening: Screening): boolean {
-    return screening.getSequence() === this.sequence;
+    return screening.isSequence(this.sequence);
   }
 }
