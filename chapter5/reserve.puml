@@ -1,0 +1,10 @@
+@startuml
+
+title 예매해라(reserve)
+
+Client --> Screening : 예매해라(reserve)
+Screening --> Movie : 가격을 계산해라(calculateMovieFee)
+Movie --> DiscountCondition : 할인 여부를 판단해라 (isDiscountAble)
+Screening --> Reservation : create
+
+@enduml
