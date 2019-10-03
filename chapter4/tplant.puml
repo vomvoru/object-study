@@ -89,6 +89,16 @@ class Reservation {
 }
 class ReservationAgency {
     +reserve(screening: Screening, customer: Customer, audienceCount: number): Reservation
+    -checkDiscountable(screening: Screening): boolean
+    -isDiscountable(condition: DiscountCondition, screening: Screening): boolean
+    -isSatisfiedByPeriod(condition: DiscountCondition, screening: Screening): boolean
+    -isSatisfiedBySequence(condition: DiscountCondition, screening: Screening): boolean
+    -calculateDiscountFee(screening: Screening, discountable: boolean, audienceCount: number): Money
+    -calculateDiscountedFee(movie: Movie): Money
+    -calculateAmountDiscountedFee(movie: Movie): Money
+    -calculatePercentDiscountedFee(movie: Movie): Money
+    -calculateNoneDiscountedFee(): Money
+    -createReservation(customer: Customer, screening: Screening, fee: Money, audienceCount: number): Reservation
 }
 DiscountCondition *-- DiscountConditionType
 Movie *-- Money
@@ -101,6 +111,9 @@ Reservation *-- Money
 ReservationAgency *-- Screening
 ReservationAgency *-- Customer
 ReservationAgency *-- Reservation
+ReservationAgency *-- DiscountCondition
+ReservationAgency *-- Money
+ReservationAgency *-- Movie
 
 hide Money
 hide Customer
