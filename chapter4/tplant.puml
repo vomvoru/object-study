@@ -1,0 +1,108 @@
+@startuml
+class Customer {
+    -name: string
+    -id: string
+    +getName(): string
+    +setName(name: string): void
+    +getId(): string
+    +setId(id: string): void
+}
+enum DiscountConditionType {
+    SEQUENCE
+    PERIOD
+}
+class DiscountCondition {
+    -type: DiscountConditionType
+    -sequence: number
+    -dayOfWeek: number
+    -startTime: Date
+    -endTime: Date
+    +getType(): DiscountConditionType
+    +setType(type: DiscountConditionType): void
+    +getSequence(): number
+    +setSequence(sequence: number): void
+    +getDayOfWeek(): number
+    +setDayOfWeek(dayOfWeek: number): void
+    +getStartTime(): Date
+    +setStartTime(startTime: Date): void
+    +getEndTime(): Date
+    +setEndTime(endTime: Date): void
+}
+class Money {
+    -amount: number
+    +plus(amount: Money): Money
+    +minus(amount: Money): Money
+    +times(percent: number): Money
+    +isLessThan(other: Money): boolean
+    +isGreaterThanOrEqual(other: Money): boolean
+    +{static} ZERO: Money
+    +{static} wons(amount: number): Money
+}
+enum MovieType {
+    ACOUNT_DISCOUNT
+    PERCENT_DISCOUNT
+    NONE_DISCOUNT
+}
+class Movie {
+    -title: string
+    -runningtime: number
+    -fee: Money
+    -discountConditions: DiscountCondition[]
+    -movieType: MovieType
+    -discountAmount: Money
+    -discountPercent: number
+    +getMovieType(): MovieType
+    +setMovieType(movieType: MovieType): void
+    +getFee(): Money
+    +setFee(fee: Money): void
+    +getDiscountConditions(): DiscountCondition[]
+    +setDiscountConditions(discountConditions: DiscountCondition[]): void
+    +getDiscountAmount(): Money
+    +setDiscountAmount(discountAmount: Money): void
+    +getDiscountPercent(): number
+    +setDiscountPercent(discountPercent: number): void
+}
+class Screening {
+    -movie: Movie
+    -sequence: number
+    -whenScreended: Date
+    +getMovie(): Movie
+    +setMovie(movie: Movie): void
+    +getSequence(): number
+    +setSequence(sequence: number): void
+    +getWhenScreended(): Date
+    +setWhenScreended(whenScreended: Date): void
+}
+class Reservation {
+    -customer: Customer
+    -screening: Screening
+    -fee: Money
+    -audienceCount: number
+    +getCustomer(): Customer
+    +setCustomer(customer: Customer): void
+    +getScreening(): Screening
+    +setScreening(screening: Screening): void
+    +getFee(): Money
+    +setFee(fee: Money): void
+    +getAudienceCount(): number
+    +setAudienceCount(audienceCount: number): void
+}
+class ReservationAgency {
+    +reserve(screening: Screening, customer: Customer, audienceCount: number): Reservation
+}
+DiscountCondition *-- DiscountConditionType
+Movie *-- Money
+Movie *-- DiscountCondition
+Movie *-- MovieType
+Screening *-- Movie
+Reservation *-- Customer
+Reservation *-- Screening
+Reservation *-- Money
+ReservationAgency *-- Screening
+ReservationAgency *-- Customer
+ReservationAgency *-- Reservation
+
+hide Money
+hide Customer
+hide Reservation
+@enduml
