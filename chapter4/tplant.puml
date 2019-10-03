@@ -49,6 +49,12 @@ class Screening {
     -movie: Movie
     -sequence: number
     -whenScreended: Date
+    +calculateDiscountFee(discountable: boolean, audienceCount: number): Money
+    -calculateDiscountedFee(movie: Movie): Money
+    -calculateAmountDiscountedFee(movie: Movie): Money
+    -calculatePercentDiscountedFee(movie: Movie): Money
+    -calculateNoneDiscountedFee(): Money
+    +isDiscountable(): boolean
     +getMovie(): Movie
     +setMovie(movie: Movie): void
     +getSequence(): number
@@ -83,17 +89,13 @@ class Reservation {
 class ReservationAgency {
     +reserve(screening: Screening, customer: Customer, audienceCount: number): Reservation
     -checkDiscountable(screening: Screening): boolean
-    -calculateDiscountFee(screening: Screening, discountable: boolean, audienceCount: number): Money
-    -calculateDiscountedFee(movie: Movie): Money
-    -calculateAmountDiscountedFee(movie: Movie): Money
-    -calculatePercentDiscountedFee(movie: Movie): Money
-    -calculateNoneDiscountedFee(): Money
     -createReservation(customer: Customer, screening: Screening, fee: Money, audienceCount: number): Reservation
 }
 Movie *-- Money
 Movie *-- DiscountCondition
 Movie *-- MovieType
 Screening *-- Movie
+Screening *-- Money
 DiscountCondition *-- DiscountConditionType
 DiscountCondition *-- Screening
 Reservation *-- Customer
@@ -103,7 +105,6 @@ ReservationAgency *-- Screening
 ReservationAgency *-- Customer
 ReservationAgency *-- Reservation
 ReservationAgency *-- Money
-ReservationAgency *-- Movie
 
 hide Money
 hide Customer
