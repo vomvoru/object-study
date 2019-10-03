@@ -11,23 +11,6 @@ enum DiscountConditionType {
     SEQUENCE
     PERIOD
 }
-class DiscountCondition {
-    -type: DiscountConditionType
-    -sequence: number
-    -dayOfWeek: number
-    -startTime: Date
-    -endTime: Date
-    +getType(): DiscountConditionType
-    +setType(type: DiscountConditionType): void
-    +getSequence(): number
-    +setSequence(sequence: number): void
-    +getDayOfWeek(): number
-    +setDayOfWeek(dayOfWeek: number): void
-    +getStartTime(): Date
-    +setStartTime(startTime: Date): void
-    +getEndTime(): Date
-    +setEndTime(endTime: Date): void
-}
 class Money {
     -amount: number
     +plus(amount: Money): Money
@@ -73,6 +56,16 @@ class Screening {
     +getWhenScreended(): Date
     +setWhenScreended(whenScreended: Date): void
 }
+class DiscountCondition {
+    -type: DiscountConditionType
+    -sequence: number
+    -dayOfWeek: number
+    -startTime: Date
+    -endTime: Date
+    +isDiscountable(screening: Screening): boolean
+    -isSatisfiedByPeriod(screening: Screening): boolean
+    -isSatisfiedBySequence(screening: Screening): boolean
+}
 class Reservation {
     -customer: Customer
     -screening: Screening
@@ -90,9 +83,6 @@ class Reservation {
 class ReservationAgency {
     +reserve(screening: Screening, customer: Customer, audienceCount: number): Reservation
     -checkDiscountable(screening: Screening): boolean
-    -isDiscountable(condition: DiscountCondition, screening: Screening): boolean
-    -isSatisfiedByPeriod(condition: DiscountCondition, screening: Screening): boolean
-    -isSatisfiedBySequence(condition: DiscountCondition, screening: Screening): boolean
     -calculateDiscountFee(screening: Screening, discountable: boolean, audienceCount: number): Money
     -calculateDiscountedFee(movie: Movie): Money
     -calculateAmountDiscountedFee(movie: Movie): Money
@@ -100,18 +90,18 @@ class ReservationAgency {
     -calculateNoneDiscountedFee(): Money
     -createReservation(customer: Customer, screening: Screening, fee: Money, audienceCount: number): Reservation
 }
-DiscountCondition *-- DiscountConditionType
 Movie *-- Money
 Movie *-- DiscountCondition
 Movie *-- MovieType
 Screening *-- Movie
+DiscountCondition *-- DiscountConditionType
+DiscountCondition *-- Screening
 Reservation *-- Customer
 Reservation *-- Screening
 Reservation *-- Money
 ReservationAgency *-- Screening
 ReservationAgency *-- Customer
 ReservationAgency *-- Reservation
-ReservationAgency *-- DiscountCondition
 ReservationAgency *-- Money
 ReservationAgency *-- Movie
 

@@ -2,10 +2,8 @@ import { Reservation } from './Reservation';
 import { Screening } from './Screening';
 import { Customer } from './Customer';
 import { Movie } from './Movie';
-import { DiscountConditionType } from './DiscountConditionType';
 import { Money } from './Money';
 import { MovieType } from './MovieType';
-import { DiscountCondition } from './DiscountCondition';
 
 export class ReservationAgency {
   reserve(screening: Screening, customer: Customer, audienceCount: number): Reservation {
@@ -18,26 +16,7 @@ export class ReservationAgency {
     return screening
       .getMovie()
       .getDiscountConditions()
-      .some(condition => this.isDiscountable(condition, screening));
-  }
-
-  private isDiscountable(condition: DiscountCondition, screening: Screening): boolean {
-    if (condition.getType() === DiscountConditionType.PERIOD) {
-      return this.isSatisfiedByPeriod(condition, screening);
-    }
-    return this.isSatisfiedBySequence(condition, screening);
-  }
-
-  private isSatisfiedByPeriod(condition: DiscountCondition, screening: Screening): boolean {
-    return (
-      screening.getWhenScreended().getTime() === condition.getDayOfWeek() &&
-      condition.getStartTime() <= screening.getWhenScreended() &&
-      condition.getEndTime() >= screening.getWhenScreended()
-    );
-  }
-
-  private isSatisfiedBySequence(condition: DiscountCondition, screening: Screening): boolean {
-    return condition.getSequence() === screening.getSequence();
+      .some(condition => condition.isDiscountable(screening));
   }
 
   private calculateDiscountFee(screening: Screening, discountable: boolean, audienceCount: number): Money {

@@ -1,4 +1,5 @@
 import { DiscountConditionType } from './DiscountConditionType';
+import { Screening } from './Screening';
 
 export class DiscountCondition {
   private type: DiscountConditionType;
@@ -9,43 +10,22 @@ export class DiscountCondition {
   private startTime: Date;
   private endTime: Date;
 
-  getType(): DiscountConditionType {
-    return this.type;
+  isDiscountable(screening: Screening): boolean {
+    if (this.type === DiscountConditionType.PERIOD) {
+      return this.isSatisfiedByPeriod(screening);
+    }
+    return this.isSatisfiedBySequence(screening);
   }
 
-  setType(type: DiscountConditionType) {
-    this.type = type;
+  private isSatisfiedByPeriod(screening: Screening): boolean {
+    return (
+      screening.getWhenScreended().getTime() === this.dayOfWeek &&
+      this.startTime <= screening.getWhenScreended() &&
+      this.endTime >= screening.getWhenScreended()
+    );
   }
 
-  getSequence(): number {
-    return this.sequence;
-  }
-
-  setSequence(sequence: number): void {
-    this.sequence = sequence;
-  }
-
-  getDayOfWeek(): number {
-    return this.dayOfWeek;
-  }
-
-  setDayOfWeek(dayOfWeek: number): void {
-    this.dayOfWeek = dayOfWeek;
-  }
-
-  getStartTime(): Date {
-    return this.startTime;
-  }
-
-  setStartTime(startTime: Date): void {
-    this.startTime = startTime;
-  }
-
-  getEndTime(): Date {
-    return this.endTime;
-  }
-
-  setEndTime(endTime: Date): void {
-    this.endTime = endTime;
+  private isSatisfiedBySequence(screening: Screening): boolean {
+    return this.sequence === screening.getSequence();
   }
 }
