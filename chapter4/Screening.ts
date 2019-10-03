@@ -5,6 +5,10 @@ export class Screening {
   private sequence: number;
   private whenScreended: Date;
 
+  isDiscountable(): boolean {
+    return this.movie.getDiscountConditions().some(condition => condition.isDiscountable(this));
+  }
+
   getMovie(): Movie {
     return this.movie;
   }

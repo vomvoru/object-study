@@ -13,10 +13,7 @@ export class ReservationAgency {
   }
 
   private checkDiscountable(screening: Screening): boolean {
-    return screening
-      .getMovie()
-      .getDiscountConditions()
-      .some(condition => condition.isDiscountable(screening));
+    return screening.isDiscountable();
   }
 
   private calculateDiscountFee(screening: Screening, discountable: boolean, audienceCount: number): Money {
